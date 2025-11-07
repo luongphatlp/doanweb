@@ -1,0 +1,530 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Spectral", serif;
+}
+
+#wrapper {
+  /* Kích thước màn hình là 1280 x 720 */
+  width: 100%;
+  height: 100vh;
+}
+.container {
+  max-width: 2000px;
+  margin: 0 auto;
+}
+
+#banner {
+  width: 100%;
+  background-image: url(../../assets/images/bg_2.1.jpg);
+  height: 851px;
+  margin-top: 100px;
+  display: flex;
+  padding: 0px 133px;
+  /* background-repeat: no-repeat; */
+}
+
+#banner .box-left,
+#banner .box-right {
+  width: 50%;
+}
+
+#banner .box-left h2 {
+  font-size: 48px;
+  margin-top: 75px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+#banner .box-left p {
+  color: #d0d0d0;
+}
+
+#banner .box-left button {
+  width: 191px;
+  height: 40px;
+  margin-top: 41px;
+  background: #1d1a1a;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 20px;
+  transition: 0.4s;
+}
+
+#banner .box-left a {
+  text-decoration: none;
+  color: #fff;
+}
+
+#banner .box-left button:hover {
+  background: orange;
+  cursor: pointer;
+}
+
+#banner .box-right {
+  padding-left: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#banner .box-right img {
+  margin: 0px 10px;
+  animation: animation 3s infinite linear;
+}
+
+#banner .box-right img:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+#banner .box-right img:nth-child(2) {
+  animation-delay: 1s;
+}
+
+@keyframes animation {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.to-bottom {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.content-section {
+  width: 800px;
+  max-width: 100%;
+  padding: 64px 0 112px;
+  margin-left: auto;
+  margin-right: auto;
+  /* text-align: center; */
+  padding-left: 16px;
+  padding-right: 8px;
+  margin-top: 40px;
+}
+
+.sectiom {
+  float: right;
+}
+
+.section-sub-heading {
+  color: #b7472a;
+  font-style: italic;
+  font-size: 18px;
+}
+
+.section-heading {
+  font-size: 30px;
+  font-weight: 500;
+  margin: 10px 0;
+  letter-spacing: 4px;
+}
+
+.about-text {
+  margin: 15px 0;
+
+  /* font-size: 15px; */
+  font: 15px;
+  text-align: justify;
+  line-height: 1.4;
+}
+
+.img-about img {
+  width: 40%;
+  height: 50%;
+  float: left;
+  margin-right: 60px;
+}
+
+#wp-products {
+  padding-top: 116px;
+  padding-bottom: 78px;
+  padding-left: 134px;
+  padding-right: 134px;
+}
+
+#wp-products h2 {
+  text-align: center;
+  margin-bottom: 76px;
+  font-size: 32px;
+  color: #626a67;
+}
+
+#wp-products .more-product {
+  border: 8px solid #000;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #000;
+}
+
+#wp-products .more-product a {
+  text-decoration: none;
+  color: #fff;
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+
+#list-products {
+  list-style: none;
+  /*display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap:40px;*/
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#list-products .item {
+  width: 300px;
+  height: 620px;
+  background: #111010;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  transition: trasform linear 0.1s;
+  border: 1px solid #000;
+}
+
+#list-products .item:hover {
+  box-shadow: 0 1px 20px 0 rgba(5, 4, 4, 0.05);
+  transform: translateY(-2px);
+  cursor: pointer;
+  transition: all ease 0.3s;
+}
+
+#list-products .item img {
+  display: block;
+  margin: 0px auto;
+  margin-top: 17px;
+  width: 100%;
+}
+
+.item .item-img {
+  width: 290px;
+  height: 435px;
+}
+
+#list-products .item .stars {
+  display: flex;
+  margin: 0px auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+#list-products .item .name {
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  margin-top: 21px;
+}
+
+#list-products .item .desc {
+  text-align: center;
+  color: #626a67;
+}
+
+#list-products .item .price {
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+#saleoff {
+  width: 100%;
+  display: flex;
+  height: 322px;
+}
+
+#saleoff .box-left,
+#saleoff .box-right {
+  width: 50%;
+}
+
+#saleoff .box-left {
+  background: #3e413e;
+  text-align: center;
+  min-height: 322px;
+}
+
+#saleoff .box-left h1 {
+  padding-top: 38px;
+}
+
+#saleoff .box-left span:nth-child(1) {
+  color: #fff;
+  font-size: 40px;
+}
+
+#saleoff .box-left span:nth-child(2) {
+  color: orange;
+  font-size: 128px;
+}
+
+#saleoff .box-right {
+  background-image: url(../../assets/images/bg_4.1.jpg);
+}
+
+#footer {
+  width: 100%;
+  background: rgb(0, 0, 0, 0.79);
+  height: 322px;
+  margin-top: 338px;
+  padding: 0px 63px;
+  padding-top: 57px;
+  display: flex;
+  justify-content: space-around;
+}
+
+#footer .box {
+  width: 250px;
+  color: #fff;
+}
+
+#footer .box .quick-menu {
+  margin-top: 40px;
+}
+
+#footer .box .quick-menu .item {
+  margin-bottom: 12px;
+}
+
+#footer .box .quick-menu,
+.item a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#footer .box form input {
+  width: 294px;
+  height: 42px;
+  background: transparent;
+  padding-left: 20px;
+  color: #fff;
+  margin-top: 30px;
+}
+
+#footer .box form button {
+  background: #362f2f;
+  box-shadow: 5px 5px 4px rgba(0, 0, 0.25);
+  width: 163px;
+  height: 38px;
+  margin-top: 29px;
+  color: #fff;
+  cursor: pointer;
+}
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 10px;
+  right: 22px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: #ccc;
+  color: white;
+  cursor: pointer;
+  padding: 14px 17px;
+  border-radius: 50%;
+  color: #000;
+}
+
+#myBtn:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+/* Khung chứa slideshow */
+.slideshow-container {
+  max-width: 100%;
+  position: relative;
+  margin: auto;
+}
+
+/* Ẩn tất cả các slide đi  */
+.mySlides {
+  display: none;
+  position: relative;
+  height: 550px;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+
+/* Nội dung (text, button) trên slide */
+.slide-content {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  color: white;
+  z-index: 2;
+}
+
+.slide-content h2 {
+  font-size: 3rem; /* 40px */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.2;
+}
+.slide-content h2 span {
+  font-weight: bold;
+}
+.slide-content p {
+  font-size: 1.2rem; /* 18px */
+  margin: 20px 0;
+}
+.slide-content button {
+  border: none;
+  background-color: #c89979;
+  padding: 15px 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.slide-content button:hover {
+  background-color: #af7d5a;
+}
+.slide-content button a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Nút Prev/Next (Trái/Phải) */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  z-index: 3;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Dấu chấm */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active,
+.dot:hover {
+  background-color: #717171;
+}
+
+/* Hiệu ứng mờ (fade) */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#footer .box form {
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+}
+
+#footer .box form input[type="text"] {
+  flex-grow: 1;
+  height: 45px;
+  border: 1px solid #555;
+  background: #222;
+  color: #eee;
+  padding: 0 15px;
+  margin-right: -1px;
+  border-radius: 4px;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+#footer .box form button {
+  height: 45px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: white;
+  padding: 0 20px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+  white-space: nowrap;
+
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+#footer .box form button:hover {
+  background-color: #c89979;
+}
+
+#footer .box .social-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 18px;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: #444;
+  color: #eee;
+}
+
+#footer .box .social-icon:hover {
+  background-color: #c89979;
+  color: white;
+}

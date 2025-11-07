@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sản phẩm | Since 1985</title>
+
+    <link rel="shortcut icon" href="assets/images/wine-glass.png" />
+    <link rel="stylesheet" href="./assets/css/Sanpham.css" />
+    <link rel="stylesheet" href="./assets/css/header.css" />
+    <link rel="stylesheet" href="./assets/css/taikhoan.css" />
+    <link
+      rel="stylesheet"
+      href="./assets/fonts/themify-icons/themify-icons.css"
+    />
+    <script src="./assets/js/orderStatus.js"></script>
+    <script src="./assets/js/products.js"></script>
+    <script src="./assets/js/sanpham.js?v=123"></script>
+    <script src="./assets/js/header.js"></script>
+    <script src="./assets/js/login.js"></script>
+  </head>
+
+  <body>
+    <div id="wrapper" class="container">
+      <div id="soluongsanpham"></div>
+      <script>
+        addheader();
+        // Hàm cập nhật tab active
+        function updateActiveNav() {
+          var path = window.location.pathname;
+          var hash = window.location.hash;
+          var page = path.split("/").pop();
+
+          if (page === "" || page === "index.html") {
+            page = "index.html";
+          }
+
+          // Tắt active cũ
+          document.getElementById("nav-trang-chu")?.classList.remove("active");
+          document.getElementById("nav-san-pham")?.classList.remove("active");
+          document.getElementById("nav-gioi-thieu")?.classList.remove("active");
+          document.getElementById("nav-lien-he")?.classList.remove("active");
+          document.getElementById("nav-gio-hang")?.classList.remove("active");
+
+          //Bật active mới
+          if (hash === "#about") {
+            document.getElementById("nav-gioi-thieu")?.classList.add("active");
+          } else if (hash === "#footer") {
+            document.getElementById("nav-lien-he")?.classList.add("active");
+          } else if (page === "SanPham.html") {
+            document.getElementById("nav-san-pham")?.classList.add("active");
+          } else if (page === "giohang.html") {
+            document.getElementById("nav-gio-hang")?.classList.add("active");
+          } else if (page === "index.html") {
+            document.getElementById("nav-trang-chu")?.classList.add("active");
+          }
+        }
+
+        // Chạy 1 lần khi tải trang
+        document.addEventListener("DOMContentLoaded", function () {
+          updateActiveNav();
+        });
+
+        // Chạy mỗi khi hash thay đổi
+        window.addEventListener("hashchange", function () {
+          updateActiveNav();
+        });
+      </script>
+
+      <div id="wp-products">
+        <h2>SẢN PHẨM CỦA CHÚNG TÔI</h2>
+        <input
+          placeholder="Giá trị dưới..."
+          class="khoanggiatien"
+          type="number"
+        />$ -
+        <input
+          placeholder="Giá trị trên..."
+          class="khoanggiatien"
+          type="number"
+        />$
+        <div id="buttons">
+          <input
+            type="button"
+            class="button-value"
+            value="All"
+            onclick="addtable(value)"
+          />
+          <input
+            type="button"
+            class="button-value"
+            value="Rum"
+            onclick="addtable(value)"
+          />
+          <input
+            type="button"
+            class="button-value"
+            value="Whisky"
+            onclick="addtable(value)"
+          />
+          <input
+            type="button"
+            class="button-value"
+            value="Vodka"
+            onclick="addtable(value)"
+          />
+        </div>
+        <section id="list-products">
+          <div id="soluongsanpham"></div>
+        </section>
+        <div id="khungchitietsanpham" class="overclass"></div>
+      </div>
+    </div>
+
+    <div
+      id="cart-toast"
+      style="
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background: #222;
+        color: #fff;
+        padding: 10px 14px;
+        border-radius: 6px;
+        display: none;
+        z-index: 9999;
+      "
+    ></div>
+    <div id="pagination-wrapper"></div>
+    <script>
+      function showToast(msg, timeout = 1400) {
+        const t = document.getElementById("cart-toast");
+        t.innerText = msg;
+        t.style.display = "block";
+        clearTimeout(t._h);
+        t._h = setTimeout(() => (t.style.display = "none"), timeout);
+      }
+
+      function parsePrice(s) {
+        if (!s) return 0;
+        const digits = s.toString().replace(/[^\d]/g, "");
+        return digits ? parseInt(digits, 10) : 0;
+      }
+
+      function productFromCard(card) {
+        if (!card) return null;
+        if (!card.closest || !card.closest("#list-products")) return null;
+
+        const imgEl = card.querySelector("img") || card.querySelector(".item-img");
+        const nameEl =
+          card.querySelector(".name") ||
+          card.querySelector(".title") ||
+          card.querySelector("h3") ||
+          card.querySelector(".product-name");
+        const priceEl =
+          card.querySelector(".price") ||
+          card.querySelector(".gia") ||
+          card.querySelector(".item-price") ||
+          card.querySelector(".product-price");
+
+        const img = imgEl ? imgEl.getAttribute("src") || "" : "";
+        const name = nameEl ? nameEl.textContent.trim() : "";
+        const priceText = priceEl ? priceEl.textContent.trim() : "";
+        const price = parsePrice(priceText);
+
+        if (!name && !price) return null;
+
+        const id =
+          card.getAttribute("data-masp") ||
+          (name ? name.replace(/\s+/g, "_").toLowerCase() : "prod_" + Date.now());
+        return {
+          masp: id,
+          name,
+          price,
+          img,
+          qty: 1,
+        };
+      }
+
+      function addToCartByProductObj(prod) {
+        if (!prod || !prod.name) {
+          console.warn("Bỏ thêm sản phẩm rỗng hoặc không hợp lệ:", prod);
+          return;
+        }
+        const cur = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+        if (!cur) {
+          alert("Bạn cần đăng nhập để thêm vào giỏ hàng.");
+          if (typeof showTaiKhoan === "function") showTaiKhoan(true);
+          return;
+        }
+
+        cur.products = cur.products || [];
+        const found = cur.products.find((p) => p.masp === prod.masp);
+        if (found) {
+          found.qty = (Number(found.qty) || 1) + (Number(prod.qty) || 1);
+        } else {
+          cur.products.push({
+            masp: prod.masp,
+            name: prod.name,
+            price: Number(prod.price) || 0,
+            img: prod.img || "",
+            qty: Number(prod.qty) || 1,
+          });
+        }
+
+        // Lưu CurrentUser
+        if (typeof setCurrentUser === "function") {
+          try {
+            setCurrentUser(cur);
+          } catch (e) {
+            console.warn("setCurrentUser failed", e);
+          }
+        }
+
+        // Cập nhật ListUser an toàn:
+        // - Nếu có updateListUser, ưu tiên dùng nó (trong login.js).
+        // - Nếu không có hoặc lỗi, dùng fallback: chỉ cập nhật products; KHÔNG gán list[i].donhang = cur.donhang nếu cur.donhang rỗng.
+        const doFallbackMerge = () => {
+          if (typeof getListUser !== "function" || typeof setListUser !== "function") return;
+          try {
+            const list = getListUser() || [];
+            for (let i = 0; i < list.length; i++) {
+              if (list[i].username === cur.username) {
+                list[i].products = cur.products;
+                // Chỉ cập nhật donhang nếu cur.donhang tồn tại và có phần tử
+                if (Array.isArray(cur.donhang) && cur.donhang.length) {
+                  list[i].donhang = cur.donhang;
+                }
+                break;
+              }
+            }
+            setListUser(list);
+          } catch (e) {
+            console.warn("Fallback merge to ListUser failed", e);
+          }
+        };
+
+        if (typeof updateListUser === "function") {
+          try {
+            updateListUser(cur, cur);
+          } catch (e) {
+            console.warn("updateListUser thrown error, using fallback", e);
+            doFallbackMerge();
+          }
+        } else {
+          doFallbackMerge();
+        }
+
+        if (typeof showToast === "function") {
+          showToast('✅ Đã thêm "' + prod.name + '" vào giỏ hàng');
+        } else {
+          alert('Đã thêm "' + prod.name + '" vào giỏ hàng');
+        }
+      }
+
+      function injectAddButtonsToList() {
+        const list = document.getElementById("list-products");
+        if (!list) return;
+        const cards = list.querySelectorAll(".item");
+        cards.forEach((card) => {
+          if (card.querySelector(".btn-add-cart")) return;
+
+          const btn = document.createElement("button");
+          btn.className = "btn-add-cart";
+          btn.type = "button";
+          btn.textContent = "🛒 Thêm vào giỏ hàng";
+          btn.style =
+            "display:block;margin-top:8px;padding:8px 10px;border-radius:6px;background:#2b8a3e;color:#fff;border:none;cursor:pointer;";
+
+          btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            const prod = productFromCard(card);
+            if (!prod) {
+              console.warn("Không thể lấy thông tin sản phẩm từ thẻ. Bỏ qua.");
+              return;
+            }
+            addToCartByProductObj(prod);
+          });
+
+          card.appendChild(btn);
+        });
+      }
+
+      function observeProductList() {
+        const list = document.getElementById("list-products");
+        if (!list) {
+          setTimeout(observeProductList, 300);
+          return;
+        }
+
+        injectAddButtonsToList();
+
+        const mo = new MutationObserver((mutations) => {
+          injectAddButtonsToList();
+        });
+        mo.observe(list, {
+          childList: true,
+          subtree: true,
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        observeProductList();
+        setTimeout(injectAddButtonsToList, 700);
+      });
+      
+    </script>
+  </body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Since 1985</title>
+    <link rel="shortcut icon" href=".//assets/images/wine-glass.png" />
+    <link rel="stylesheet" href="./assets/css/admin.css">
+    <link rel="stylesheet" href="./assets/css/taikhoan.css">
+    <link rel="stylesheet" href="./assets/fonts/themify-icons/themify-icons.css">
+    
+</head>
+<body>
+    <div class="body">
+        <div class="header">
+            <h2>Since 1985 - Admin</h2>
+        </div>
+        <div class="bheader"></div>
+            <!-- Menu -->
+            <aside class="sidebar">
+                <ul class="nav">
+                    <li class="nav-title">MENU</li>
+                    <li class="nav-item js-opentrangchu"><a class="nav-link active "><i class="mr-6 ti-home"></i>Trang Chủ</a></li>
+                    <li class="nav-item js-opensanpham"><a class="nav-link "><i class="mr-6 ti-view-grid"></i>Sản Phẩm</a></li>
+                    <li class="nav-item js-opendonhang"><a class="nav-link"><i class="mr-6 ti-package"></i>Đơn Hàng</a></li>
+                    <li class="nav-item js-openkhachhang"><a class="nav-link"><i class="mr-6 ti-id-badge"></i>Khách Hàng</a></li>
+                    <li class="nav-item js-opennhaphang"><a class="nav-link"><i class="mr-6 ti-package"></i>Nhập Hàng</a></li>
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link" ><!-- onclick="logOutAdmin(); return true;" -->
+                            <i class="mr-6 ti-arrow-circle-left"></i> Đăng xuất (về Trang chủ)
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+            
+            <!-- Khung hiển thị chính -->
+            <div class="main">
+                <!-- trangchu -->
+                <div class="js-trangchu trangchu">
+                    <div class="thongke js-thongke">
+                            <table class="table-header">
+                                <tr>
+                                    <th title="Sắp xếp" style="width: 10%">STT</th>
+                                    <th title="Sắp xếp" style="width: 10%">Mã SP</th>
+                                    <th title="Sắp xếp" style="width: 40%">Tên sản phẩm</th>
+                                    <th title="Sắp xếp" style="width: 10%">Thương hiệu</th>
+                                    <th title="Sắp xếp" style="width: 10%">Doanh thu</th>
+                                    <th title="Sắp xếp" style="width: 10%">Lợi nhuận</th>
+                                    <th title="Sắp xếp" style="width: 10%">Tỉ lệ %</th>
+                                </tr>
+                            </table>
+                            <div class="table-content" id="khungThongKe"></div>
+                    </div>
+                    <div class="table-footer">
+                        <button onclick="addTableTrangChu()">Toàn bộ</button>
+                        <button onclick="addTableTrangChu1('Whisky')">Whisky</button>
+                        <button onclick="addTableTrangChu1('Rum')">Rum</button>
+                        <button onclick="addTableTrangChu1('Vodka')">Vodka</button>
+                    </div>
+                </div>
+                <!-- Sản Phẩm -->
+                <div class="sanpham js-sanpham">
+                    <table class="table-header">
+                        <tr>
+                            <!-- Theo độ rộng của table content -->
+                            <th title="Sắp xếp" style="width: 5%" >Stt</th>
+                            <th title="Sắp xếp" style="width: 5%" >Mã</th>
+                            <th title="Sắp xếp" style="width: 40%" >Tên</th>
+                            <th title="Sắp xếp" style="width: 10%" >Loại</th>
+                            <th title="Sắp xếp" style="width: 5%" >Giá</th>
+                            <th title="Sắp xếp" style="width: 5%" >Tỉ lệ lợi nhuận</th>
+                            <th title="Sắp xếp" style="width: 5%" >Số sao</th>
+                            <th title="Sắp xếp" style="width: 5%" >Nồng Độ</th>
+                            <th title="Sắp xếp" style="width: 5%" >Dung Tích</th>
+                            <th title="Sắp xếp" style="width: 5%" >Số Lượng Tồn</th>
+                            <th title="Sắp xếp" style="width: 15%" >Hành Động</th>
+                        </tr>
+                    </table>
+                    <div class="table-content"> 
+                    </div>
+                    <div class="table-footer">
+                        <button onclick="document.getElementById('khungThemSanPham').style.transform = 'scale(1)';">
+                            Thêm sản phẩm
+                        </button>
+                        <button onclick="document.getElementById('khungNhapTiLeLoiNhuan').style.transform = 'scale(1)';">
+                            Sửa tỉ lệ lọi nhuận
+                        </button>
+                        <button onclick="addTableProducts1('Whisky')">Whisky</button>
+                        <button onclick="addTableProducts1('Rum')">Rum</button>
+                        <button onclick="addTableProducts1('Vodka')">Vodka</button>
+                    </div>
+                    <div id="khungNhapTiLeLoiNhuan" class="overclass" >
+                         <span class="close" onclick="this.parentElement.style.transform = 'scale(0)';"><i class="ti-close"></i></span>
+                         <table class="overlayTable table-header table-content">
+                            <tr>
+                                <th colspan="2">Nhâp tỉ lợi lệ nhuận</th>
+                            </tr>
+                            <tr>
+                                <td>Thương hiệu</td>
+                                <td>
+                                    <select id="thuonghieu">
+                                        <option value="1">Vodka</option>
+                                        <option value="2">Whisky</option>
+                                        <option value="3">Rum</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tỉ lệ lợi nhuận</td>
+                                <td><input id="nhaptileloinhuan" type="number" checked></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="table-footer"> <button onclick="suatileloinhuan()">Lưu</button> </td>
+                            </tr>
+                         </table>
+                    </div>
+                    <div id="khungThemSanPham" class="overclass">
+                        <span class="close" onclick="this.parentElement.style.transform = 'scale(0)';"><i class="ti-close"></i></span>
+                        <table class="overlayTable table-header table-content">
+                            <tr>
+                                <th colspan="2">Thêm Sản Phẩm</th>
+                            </tr>   
+                            <tr>
+                                <td>Mã sản phẩm:</td>
+                                <td><input type="text" id="maspThem"></td>
+                            </tr>
+                            <tr>
+                                <td>Tên sản phẩm:</td>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Thương Hiệu:</td>
+                                <td>
+                                    <select name="chonCompany">
+                                        <script>
+                                            var company = ["Whisky","Rum","Vodka"];
+                                            for(var c of company) {
+                                                document.writeln(`<option value="`+c+`">`+c+`</option>`);
+                                            }
+                                        </script>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Hình:</td>
+                                <td>
+                                    <img class="hinhDaiDien" id="anhDaiDienSanPhamThem" src="">
+                                    <input type="file" accept="image/*" onchange="capNhatAnhSanPham(this.files, 'anhDaiDienSanPhamThem')">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Giá tiền ($):</td>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Số sao (số nguyên 0->5):</td>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Nồng độ:</td>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Dung tích:</td>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="table-footer"> <button onclick="themSanPham()">hello</button> </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="khungSuaSanPham" class="overclass" >hello</div>
+
+                </div> 
+
+                <!-- Đơn Hàng -->
+                <div class="donhang js-donhang">
+                    <table class="table-header">
+                        <tr>
+                            <!-- Theo độ rộng của table content -->
+                            <th title="Sắp xếp" style="width: 5%" >Stt</th>
+                            <th title="Sắp xếp" style="width: 13%" >Mã đơn</th>
+                            <th title="Sắp xếp" style="width: 7%" >Khách</th>
+                            <th title="Sắp xếp" style="width: 20%" >Sản phẩm</th>
+                            <th title="Sắp xếp" style="width: 10%" >Tổng tiền</th>
+                            <th title="Sắp xếp" style="width: 10%" >Ngày giờ</th>
+                            <th title="Sắp xếp" style="width: 10%" >Trạng thái</th>
+                            <th title="Sắp xếp" style="width: 5%" >Chi Tiết</th>
+                            <th style="width: 10%">Hành động</th>
+                        </tr>
+                    </table>
+
+                    <div class="table-content">
+                    </div>
+                    <div id="khungChiTietDonHang" class="overclass"></div>
+                </div> <!-- // don hang -->
+                <!-- Khách hàng -->
+                <div class="khachhang js-khachhang">
+                    <table class="table-header">
+                        <tr>
+                            <!-- Theo độ rộng của table content -->
+                            <th title="Sắp xếp" style="width: 5%" >Stt</th>
+                            <th title="Sắp xếp" style="width: 15%" >Họ tên</th>
+                            <th title="Sắp xếp" style="width: 20%" >Email</th>
+                            <th title="Sắp xếp" style="width: 20%" >Tài khoản</th>
+                            <th title="Sắp xếp" style="width: 10%" >Mật khẩu</th>
+                            <th style="width: 10%">Hành động</th>
+                        </tr>
+                    </table>
+                    <div class="table-content">
+                    </div>
+                </div> <!-- // khach hang -->
+                <!-- Nhập hàng-->
+                <div class="nhaphang js-nhaphang">
+                    <table class="table-header">
+                        <tr>
+                            <!-- Theo độ rộng của table content-->
+                            <th title="Sắp xếp" style="width: 5%" >Stt</th>
+                            <th title="Sắp xếp" style="width: 10%" >Mã Phiếu</th>
+                            <th title="Sắp xếp" style="width: 10%" >Ngày Nhập</th>
+                            <th title="Sắp xếp" style="width: 10%" >Mã Sản Phẩm</th>
+                            <th title="Sắp xếp" style="width: 20%" >Tên Sản Phẩm</th>
+                            <th title="Sắp xếp" style="width: 10%" >Đơn giá</th>
+                            <th title="Sắp xếp" style="width: 5%" >Số Lượng</th>
+                            <th title="Sắp xếp" style="width: 10%" >Tổng T  iền</th>
+                            <th title="Sắp xếp" style="width: 10%" >Tình Trạng</th>
+                            <th title="Sắp xếp" style="width: 10%" >Hành Động</th>
+                        </tr>
+                    </table>
+                    <div class="table-content"></div>
+                    <div class="table-footer">
+                        <button onclick="document.getElementById('khungThemPhieuNhap').classList.add('open')">
+                            Thêm phiếu nhập
+                        </button>
+                    </div>
+                    <div id="khungThemPhieuNhap" class="overclass">
+                        <span class="close" onclick="this.parentElement.classList.remove('open');"><i class="ti-close"></i></span>
+                        <table class="overlayTable table-header table-content">
+                            <tr>
+                                <th colspan="2">Thêm Phiếu Nhập</th>
+                            </tr>
+                            <tr>
+                                <td>Mã phiếu:</td>
+                                <td><input type="text" id="maphieuNhap"></td>
+                            </tr>
+                            <tr>
+                                <td>Ngày nhập:</td>
+                                <td><input type="date" id="ngayNhap"></td>
+                            </tr>
+                            <tr>
+                                <td>Mã sản phẩm:</td>
+                                <td><input type="text" id="maSanPhamNhap"></td>
+                            </tr>
+                            <tr>
+                                <td>Tên sản phẩm:</td>
+                                <td><input type="text" id="tenSanPhamNhap"></td>
+                            </tr>
+                            <tr>
+                                <td>Đơn giá:</td>
+                                <td><input type="number" id="donGiaNhap" min="0"></td>
+                            </tr>
+                            <tr>
+                                <td>Số lượng:</td>
+                                <td><input type="number" id="soLuongNhap" min="1"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="table-footer">
+                                    <button onclick="themPhieuNhap()">THÊM</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="khungSuaPhieuNhap" class="overclass"></div>
+                </div>
+            </div> <!-- // main -->
+            <div class="clear"></div>
+        <footer>
+        </footer>
+    </div>
+    <script src="./assets/js/orderStatus.js"></script>
+    <script src="./assets/js/giohang.js"></script>
+    <script src="./assets/js/sanpham.js"></script>
+    <script src="./assets/js/products.js"></script>
+    <script src="./assets/js/admin.js"></script>
+    <script src="./assets/js/login.js"></script>
+</body>
+</html>

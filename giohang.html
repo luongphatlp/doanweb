@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart | View Cart</title>
+    <link rel="shortcut icon" href="assets/images/wine-glass.png" />
+    <link rel="stylesheet" href="./assets/css/giohang.css" />
+    <link rel="stylesheet" href="./assets/css/header.css" />
+    <link rel="stylesheet" href="./assets/css/taikhoan.css" />
+    <link
+      rel="stylesheet"
+      href="./assets/fonts/themify-icons/themify-icons.css"
+    />
+
+    <!-- IMPORTANT: load login.js BEFORE any script that uses getCurrentUser/updateListUser -->
+     <script src="./assets/js/login.js"></script>
+     <script src="./assets/js/orderStatus.js"></script>
+     <script src="./assets/js/giohang.js" defer></script>
+    <script src="./assets/js/products.js"></script>
+    
+    <script src="./assets/js/header.js"></script>
+    <script src="./assets/js/dungchung.js"></script>
+    <script src="./assets/js/admin.js"></script>
+    <!-- keep giohang.js deferred so it runs after parsing and after the scripts above -->
+   
+  </head>
+
+  <body>
+    <script>
+      addheader();
+      // Hàm này cập nhật tab active
+      function updateActiveNav() {
+        var path = window.location.pathname;
+        var hash = window.location.hash;
+        var page = path.split("/").pop();
+
+        if (page === "" || page === "index.html") {
+          page = "index.html";
+        }
+
+        // tắt hết active cũ
+        document.getElementById("nav-trang-chu")?.classList.remove("active");
+        document.getElementById("nav-san-pham")?.classList.remove("active");
+        document.getElementById("nav-gioi-thieu")?.classList.remove("active");
+        document.getElementById("nav-lien-he")?.classList.remove("active");
+        document.getElementById("nav-gio-hang")?.classList.remove("active");
+
+        // Bật active mới
+        if (hash === "#about") {
+          document.getElementById("nav-gioi-thieu")?.classList.add("active");
+        } else if (hash === "#footer") {
+          document.getElementById("nav-lien-he")?.classList.add("active");
+        } else if (page === "SanPham.html") {
+          document.getElementById("nav-san-pham")?.classList.add("active");
+        } else if (page === "giohang.html") {
+          document.getElementById("nav-gio-hang")?.classList.add("active");
+        } else if (page === "index.html") {
+          document.getElementById("nav-trang-chu")?.classList.add("active");
+        }
+      }
+
+      // Chạy 1 lần khi tải trang
+      document.addEventListener("DOMContentLoaded", function () {
+        updateActiveNav();
+      });
+
+      // Chạy mỗi khi hash thay đổi
+      window.addEventListener("hashchange", function () {
+        updateActiveNav();
+      });
+    </script>
+
+    <div
+      class="container"
+      style="max-width: 1100px; margin: 30px auto; padding: 0 12px"
+    >
+      <h2>Giỏ hàng của bạn</h2>
+
+      <!-- Nếu chưa đăng nhập -> hiển thị mời đăng nhập -->
+      <div
+        id="not-logged"
+        style="
+          display: none;
+          padding: 16px;
+          background: #fff3cd;
+          border: 1px solid #ffeeba;
+          border-radius: 6px;
+        "
+      >
+        Bạn cần
+        <a href="#" onclick="showTaiKhoan(true); return false;">đăng nhập</a> để
+        sử dụng giỏ hàng.
+      </div>
+
+      <!-- Bảng giỏ hàng -->
+      <div id="cart-wrap" style="margin-top: 12px">
+        <table
+          class="listSanPham"
+          id="cart-table"
+          style="width: 100%; border-collapse: collapse"
+        >
+          <thead>
+            <tr style="background: #f2f2f2">
+              <th style="padding: 10px; text-align: left">Hình</th>
+              <th style="padding: 10px; text-align: left">Tên sản phẩm</th>
+              <th style="padding: 10px; text-align: right">Giá</th>
+              <th style="padding: 10px; text-align: center">Số lượng</th>
+              <th style="padding: 10px; text-align: right">Thành tiền</th>
+              <th style="padding: 10px; text-align: center">Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="cart-body">
+            <!-- rows injection -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" style="text-align: right; padding: 12px">
+                <strong>Tổng tiền:</strong>
+              </td>
+              <td style="text-align: right; padding: 12px">
+                <strong id="cart-total">0</strong>
+              </td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Form đặt hàng -->
+      <!-- THÔNG TIN GIAO HÀNG & THANH TOÁN -->
+      <div
+        id="thongtindathang"
+        style="
+          margin-top: 30px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          padding: 15px;
+        "
+      >
+        <h3>Thông tin giao hàng & thanh toán</h3>
+        <div
+          style="display: grid; gap: 8px; margin-top: 10px; max-width: 500px"
+        >
+          <label>Họ và tên:</label>
+          <input
+            type="text"
+            id="order-name"
+            placeholder="Nhập họ tên..."
+            style="padding: 6px"
+          />
+
+          <label>Email:</label>
+          <input
+            type="email"
+            id="order-email"
+            placeholder="Nhập email..."
+            style="padding: 6px"
+          />
+
+          <label>Số điện thoại:</label>
+          <input
+            type="tel"
+            id="order-phone"
+            placeholder="Nhập số điện thoại..."
+            style="padding: 6px"
+          />
+
+          <label>Địa chỉ nhận hàng:</label>
+          <input
+            type="text"
+            id="order-address"
+            placeholder="Nhập địa chỉ..."
+            style="padding: 6px"
+          />
+
+          <label>Phương thức thanh toán:</label>
+          <div>
+            <label
+              ><input type="radio" name="pay-method" value="cod" checked />
+              Thanh toán khi nhận hàng</label
+            ><br />
+            <label
+              ><input type="radio" name="pay-method" value="bank" /> Chuyển
+              khoản ngân hàng</label
+            ><br />
+            <label
+              ><input type="radio" name="pay-method" value="online" /> Thanh
+              toán trực tuyến</label
+            >
+          </div>
+
+          <button
+            id="btn-place-order"
+            style="
+              margin-top: 12px;
+              padding: 8px 12px;
+              background: #2b8a3e;
+              color: #fff;
+              border: none;
+              border-radius: 6px;
+              cursor: pointer;
+            "
+          >
+            Đặt hàng
+          </button>
+        </div>
+      </div>
+
+      <!-- DANH SÁCH ĐƠN HÀNG ĐÃ MUA -->
+      <div id="donhangdamua" style="margin-top: 40px">
+        <h3>Đơn hàng đã mua</h3>
+        <div id="orders-list"></div>
+      </div>
+    </div>
+  </body>
+</html>

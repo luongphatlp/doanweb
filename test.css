@@ -1,0 +1,20 @@
+table{
+    border:1px solid black;
+}
+.top{
+    position:relative;
+    border: 1px solid black;
+}
+a:hover{
+    color:red;
+}
+.contact{
+    position:absolute;
+    top:0;
+    left:0;
+}
+.search{
+    position:absolute;
+    right:0;
+    top:0;
+}

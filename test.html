@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Sửa mã sản phẩm trong đơn hàng</title>
+</head>
+<body>
+  <h2>Sửa mã sản phẩm của currentUser</h2>
+  <div id="list-donhang"></div>
+  <button id="save-changes">Lưu thay đổi</button>
+
+  <script>
+    // ✅ Lấy currentUser (đúng 1 user, không phải ListUser)
+    let currentUser = JSON.parse(localStorage.getItem('CurrentUser')) || { donhang: [] };
+
+    function hienThiDonHang() {
+      const div = document.getElementById('list-donhang');
+      let html = '';
+
+      if (!currentUser.donhang || currentUser.donhang.length === 0) {
+        div.innerHTML = "<p>Người dùng chưa có đơn hàng nào.</p>";
+        return;
+      }
+
+      // Hiển thị từng đơn hàng
+      currentUser.donhang.forEach((dh, indexDH) => {
+        html += `<h3>Đơn hàng #${indexDH + 1} (${dh.id || "Không có mã"})</h3>`;
+        if (!dh.products || dh.products.length === 0) {
+          html += `<p><i>Không có sản phẩm nào.</i></p>`;
+          return;
+        }
+
+        html += "<table border='1' cellpadding='6'><tr><th>Tên sản phẩm</th><th>Mã sản phẩm</th></tr>";
+
+        dh.products.forEach((p, indexSP) => {
+          html += `
+            <tr>
+              <td>${p.name || "(Không có tên)"}</td>
+              <td>
+                <input type="text" id="masp-${indexDH}-${indexSP}" value="${p.masp || ''}" style="width:200px">
+              </td>
+            </tr>
+          `;
+        });
+
+        html += "</table><br>";
+      });
+
+      div.innerHTML = html;
+    }
+
+    // ✅ Cập nhật mã sản phẩm khi bấm "Lưu thay đổi"
+    document.getElementById('save-changes').addEventListener('click', () => {
+      currentUser.donhang.forEach((dh, indexDH) => {
+        if (!dh.products) return;
+        dh.products.forEach((p, indexSP) => {
+          const newMaSP = document.getElementById(`masp-${indexDH}-${indexSP}`).value.trim();
+          p.masp = newMaSP;
+        });
+      });
+
+      // Lưu lại vào localStorage
+      localStorage.setItem('CurrentUser', JSON.stringify(currentUser));
+
+      // Nếu có ListUser, cập nhật cả trong đó
+      let list = JSON.parse(localStorage.getItem('ListUser')) || [];
+      const index = list.findIndex(u => u.username === currentUser.username);
+      if (index !== -1) {
+        list[index] = currentUser;
+        localStorage.setItem('ListUser', JSON.stringify(list));
+      }
+
+      alert('Đã lưu thay đổi thành công!');
+    });
+
+    // ✅ Gọi hàm hiển thị khi tải trang
+    hienThiDonHang();
+  </script>
+</body>
+</html>
